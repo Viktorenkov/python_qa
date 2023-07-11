@@ -1,48 +1,21 @@
 """
-Convert a non-negative integer num to its English words representation.
-Example 1:
-Input: num = 123
-Output: "One Hundred Twenty Three"
+we have two lists with equal or different size
+ex. l1=[1,3,5,7]  l2=[1,4,5]
+task:
+create list that will store such values list_target = [(1,1), (3,4), (5,5), (7,0)]
+zero (0) is our default value that we set if no such element by index was found in certain list.
+code should work and vise versa
+ex. l1=[1,4,5] l2=[1,3,5,7] input data should produce list_target = [(1,1), (4,3), (5,5), (0,7)]
+your solution should include comprehension constructions
 
-let's take that number always > 100 and only three digits
-100 <= num <= 999
+Advices:
+set of (list1 indexes union list2 indexes) could be helpful to get larger indexes scope ( or use if-else)
+dict as you remember has default value if key was not found d1.get(key, 0)
 """
 
+l1 = [2, 4, 6, 8, 10]
+l2 = [1, 2, 3]
 
-def numberToWords(num):
-    # Define the words for numbers up to 19
-    less_than_20 = [
-        "", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
-        "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen",
-        "Seventeen", "Eighteen", "Nineteen"
-    ]
-    # Define the words for tens
-    tens = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"]
-    # Define the words for thousands
-    thousands = ["", "Thousand", "Million", "Billion"]
+list_target = [(l1[i] if i < len(l1) else 0, l2[i] if i < len(l2) else 0) for i in range(max(len(l1), len(l2)))]
 
-    if num == 0:
-        return "Zero"
-
-    def convert_three_digits(n):
-        if n == 0:
-            return ""
-        elif n < 20:
-            return less_than_20[n] + " "
-        elif n < 100:
-            return tens[n // 10] + " " + convert_three_digits(n % 10)
-        else:
-            return less_than_20[n // 100] + " Hundred " + convert_three_digits(n % 100)
-
-    result = ""
-    for i in range(len(thousands)):
-        if num % 1000 != 0:
-            result = convert_three_digits(num % 1000) + thousands[i] + " " + result
-        num //= 1000
-
-    return result.strip()
-
-
-# Test the function
-num = 333
-print(numberToWords(num))
+print(list_target)
